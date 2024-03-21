@@ -18,7 +18,6 @@ public class UserServiceImpl extends AbstractService implements UserService{
     private final UserRepository userRepository;
     private Map<String, User> users;
 
-
     @Override
     public Messenger save(User user) throws SQLException {
         users.put(user.getUsername(), user);
@@ -33,7 +32,7 @@ public class UserServiceImpl extends AbstractService implements UserService{
 
     @Override
     public String login(User user) {
-        return users.getOrDefault(user.getUsername(), User.bulder().password("").build())
+        return users.getOrDefault(user.getUsername(), User.builder().password("").build())
                 .getPassword()
                 .equals(user.getPassword()) ?
                 user.getUsername() + "님 로그인 성공" : user.getUsername() + "님 로그인 실패";

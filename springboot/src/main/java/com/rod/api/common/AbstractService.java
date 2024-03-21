@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public abstract class AbstractService<T> {
 
-    public abstract Messenger save(User user) throws SQLException;
+
 
     public abstract List<T> findAll() throws SQLException;
 
@@ -22,8 +22,6 @@ public abstract class AbstractService<T> {
     public abstract String delete(T t);
 
     public abstract String deleteAll();
-
-    public abstract String delete(User user);
 
     public abstract Boolean existsById(Long id);
 }

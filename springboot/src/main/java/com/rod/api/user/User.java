@@ -1,13 +1,18 @@
 package com.rod.api.user;
 
 
+import jakarta.persistence.*;
 import lombok.*;
 
+@Entity(name="users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 @ToString(exclude = {"id"})
 public class User {
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 
     private Long id;
     private String username;
@@ -20,7 +25,7 @@ public class User {
     private String height;
 
 
-    @Builder(builderMethodName = "bulder")
+    @Builder(builderMethodName = "builder")
     public User(Long id, String username, String password, String name, String phoneNumber, String job, String weight, String height) {
         this.id = id;
         this.username = username;

@@ -13,6 +13,8 @@ import java.util.List;
 public class UserRepository {
 
     private Connection connection;
+    private PreparedStatement pstmt;
+    private ResultSet rs;
 
     private UserRepository() throws SQLException {
         connection = DriverManager.getConnection(
@@ -25,8 +27,8 @@ public class UserRepository {
     public List<?> findUsers() throws SQLException {
 
         String sql = "select * from users";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        ResultSet rs = pstmt.executeQuery();
+        pstmt = connection.prepareStatement(sql);
+        rs = pstmt.executeQuery();
 
         if (rs.next()) {
             do {
@@ -63,7 +65,7 @@ public class UserRepository {
                 "  weight VARCHAR(20),                                     \n" +
                 "  CONSTRAINT users_pk PRIMARY KEY(id)             \n" +
                 ");";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt = connection.prepareStatement(sql);
         int ex = pstmt.executeUpdate();
         pstmt.close();
 
@@ -72,7 +74,7 @@ public class UserRepository {
 
     public Messenger dropTable() throws SQLException {
         String sql = "drop table users;";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt = connection.prepareStatement(sql);
         pstmt.executeUpdate();
 
         return Messenger.SUCCESS;
@@ -81,7 +83,7 @@ public class UserRepository {
     public Messenger save(User user) throws SQLException {
         String sql = "INSERT INTO users(username,password,name,phone_number,job,height,weight)\n" +
                 "VALUES (?,?,?,?,?,?,?)";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt = connection.prepareStatement(sql);
 
         pstmt.setString(1, user.getUsername());
         pstmt.setString(2, user.getPassword());

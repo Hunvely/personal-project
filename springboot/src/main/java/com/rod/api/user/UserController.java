@@ -26,7 +26,7 @@ public class UserController {
     }
 
     public Messenger save(Scanner input) throws SQLException {
-        userServiceImpl.save(User.bulder()
+        userServiceImpl.save(User.builder()
                 .username(input.next())
                 .password(input.next())
                 .name(input.next())
@@ -40,7 +40,7 @@ public class UserController {
     }
 
     public String login(Scanner input) {
-        return userServiceImpl.login(User.bulder()
+        return userServiceImpl.login(User.builder()
                 .username(input.next())
                 .password(input.next())
                 .build());
@@ -51,14 +51,14 @@ public class UserController {
     }
 
     public String updatePassword(Scanner input) {
-        return userServiceImpl.updatePassword(User.bulder()
+        return userServiceImpl.updatePassword(User.builder()
                 .username(input.next())
                 .password(input.next())
                 .build());
     }
 
     public String delete(Scanner input) {
-        userServiceImpl.delete(User.bulder()
+        userServiceImpl.delete(User.builder()
                 .username(input.next())
                 .build());
         return "회원 탈퇴 완료.";

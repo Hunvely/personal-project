@@ -14,10 +14,12 @@ import java.util.Optional;
 
 public interface UserService {
 
-
+     Messenger save(User user) throws SQLException;
     String login(User user);
 
     String updatePassword(User user);
+
+    String delete(User user);
 
     List<?> findUsersByName(String name);
 
@@ -28,7 +30,6 @@ public interface UserService {
     Map<String, ?> findUserByJobFromMap(String name);
 
     Map<String, ?> getUserMap();
-
 
     List<?> findUsers() throws SQLException;
 
