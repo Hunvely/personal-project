@@ -18,7 +18,7 @@ export default function Login() {
 
     const handleSubmit = () => {
         alert('리퀘스트가 가져가는 아이디 : ' + username)
-        const url = `${SERVER}/login`
+        const url = `${SERVER}/api/login`
         const data = { username, password }
         const config = {
             headers: {
@@ -33,7 +33,6 @@ export default function Login() {
                 alert("리스펀스가 가져온 이름 : " + JSON.stringify(res.data))
             })
     }
-
 
     return (<>
         <h2>환영합니다.</h2>
