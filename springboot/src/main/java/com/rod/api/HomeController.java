@@ -9,7 +9,7 @@ import org.springframework.web.context.annotation.SessionScope;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000/")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @RestController
 public class HomeController {

@@ -2,7 +2,6 @@ package com.rod.api.account;
 
 import com.rod.api.common.AbstractService;
 import com.rod.api.enums.Messenger;
-import com.rod.api.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
