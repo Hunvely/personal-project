@@ -1,0 +1,50 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.title {
+  font-size: 2.5em;
+  text-align: center;
+  color: #333;
+}
+
+.subtitle {
+  font-size: 1.5em;
+  text-align: center;
+  color: #666;
+}
+
+.formContainer {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+.description {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.linksContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.link {
+  margin-left: 10px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

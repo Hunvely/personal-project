@@ -2,44 +2,30 @@
 import { useState } from "react";
 import axios from 'axios';
 import Link from "next/link";
+import styles from './main.module.css';
 const SERVER = 'http://localhost:8080'
 
 export default function Home() {
 
   const [name, setName] = useState('')
-
-  const handleButton = () => {
-    alert('리퀘스트가 가져가는 이름 : ' + name)
-    const url = `${SERVER}/name`
-    const data = { 'name': name }
-    const config = {
-      headers: {
-        "Cache-Control": "no-cache",
-        "Content-Type": "application/json",
-        Authorization: `Bearer blah ~`,
-        "Access-Control-Allow-Origin": "*",
-      }
-    }
-
-    axios.post(url, data, config)
-      .then(res => {
-        alert("리스펀스가 가져온 이름 : " + JSON.stringify(res.data))
-      })
-  }
-  const handleChange = (e: any) => {
-    setName(e.target.value)
-  }
-
-  return (<>
-    <p>안녕하세요.</p> <p>리액트 오랜만입니다.</p>
-    <h2>당신의 이름은 무엇인가요 ?</h2>
-    <input type="text" onChange={handleChange}></input>
-    <button onClick={handleButton}>입 력</button>
-    <br></br><br></br>
-    <Link href={"http://localhost:3000/login"} >로그인 </Link>
-    <br></br><br></br>
-    <Link href={"http://localhost:3000/join"} >회원가입 </Link>
-
-  </>
+ 
+  return (
+  
+    <div className={styles.container}>
+       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ marginRight: '10px' }}>
+          <Link href="/login">로그인</Link>
+        </div>
+        <div>
+          <Link href="/join">회원가입</Link>
+        </div>
+      </div>
+      <h1 className={styles.title}>Whiskey</h1>
+      <p className={styles.subtitle}>당신의 위스키 여정을 시작하세요.</p>
+      <div className={styles.description}>
+        <p>위스키는 다양한 향과 맛을 즐길 수 있는 음료입니다.</p>
+        <p>위스키는 세계 각지에서 생산되고 있으며, 그 맛의 차이는 지역, 재료, 제조 과정에 따라 다릅니다.</p>
+      </div>
+    </div>
   );
 }

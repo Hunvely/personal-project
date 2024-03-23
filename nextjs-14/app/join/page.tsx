@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from 'axios';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import styles from './Join.module.css';
 const SERVER = 'http://localhost:8080'
 export default function Join() {
 
@@ -48,20 +49,20 @@ export default function Join() {
       })
     }
     return(<>
-<div className="container">
+<div className={styles.container}>
     <h1>Sign Up</h1>
     <p>Please fill in this form to create an account.</p>
     <hr/>
     <label htmlFor="username"><b>Username</b></label> <br/>
-    <input type="text"  onChange = {handleChangeUsername} placeholder="Enter Username" name="username" required /> <br/>
+    <input type="text"  onChange = {handleChangeUsername} placeholder="Enter Username" name="username" required /> <br/><br></br>
     <label htmlFor="psw"><b>Password</b></label> <br/>
-    <input type="password" onChange = {handleChangePassword} placeholder="Enter Password" name="psw" required /> <br/>
+    <input type="password" onChange = {handleChangePassword} placeholder="Enter Password" name="psw" required /> <br/><br></br>
     <label htmlFor="name"><b>Name</b></label> <br/>
-    <input type="name" onChange = {handleChangeName} placeholder="Enter Name" name="name" required /> <br/>
+    <input type="name" onChange = {handleChangeName} placeholder="Enter Name" name="name" required /> <br/><br></br>
     <label htmlFor="phone"><b>PhoneNumber</b></label> <br/>
-    <input type="phone" onChange = {handleChangePhone} placeholder="Enter PhoneNumber" name="phone" required /> <br/>
+    <input type="phone" onChange = {handleChangePhone} placeholder="Enter PhoneNumber" name="phone" required /> <br/><br></br>
     <label htmlFor="email"><b>Email</b></label> <br/>
-    <input type="text" onChange = {handleChangeEMail} placeholder="Enter Email" name="email" required /> <br/>
+    <input type="text" onChange = {handleChangeEMail} placeholder="Enter Email" name="email" required /> <br/><br></br>
     <label>
       <input type="checkbox" checked={true} name="remember" style={{ marginBottom: "15px" }} /> Remember me
     </label>
