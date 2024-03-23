@@ -3,8 +3,11 @@
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
-  text-decoration-color : black;
+}
+
+.link {
   text-decoration-line: none;
+  text-decoration-color: black;
 }
 
 .title {
@@ -27,6 +30,21 @@
 .linksContainer {
   display: flex;
   justify-content: flex-end;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  text-align: center;
+}
+
+.gridItem {
+  
+  padding: 20px;
+  background-color: green;
+  border-radius: 5px;
+  text-decoration-line: none;
 }
 
 
