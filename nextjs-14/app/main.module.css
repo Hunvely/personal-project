@@ -3,6 +3,8 @@
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
+  text-decoration-color : black;
+  text-decoration-line: none;
 }
 
 .title {
@@ -17,18 +19,6 @@
   color: #666;
 }
 
-.formContainer {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  font-size: 1em;
-}
-
 .description {
   margin-bottom: 20px;
   text-align: center;
@@ -39,12 +29,4 @@
   justify-content: flex-end;
 }
 
-.link {
-  margin-left: 10px;
-  color: #007bff;
-  text-decoration: none;
-}
 
-.link:hover {
-  text-decoration: underline;
-}
