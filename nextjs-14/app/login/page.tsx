@@ -28,9 +28,12 @@ export default function Login() {
                 "Access-Control-Allow-Origin": "*",
             }
         }
-        axios.post(url, data, config)
+        axios.post(url, data, config) // post한 data는 RequestBody이다.
             .then(res => {
-                alert("리스펀스가 가져온 이름 : " + JSON.stringify(res.data))
+                //alert("리스펀스가 가져온 이름 : " + JSON.stringify(res.data)) // res.data에서 .data는 ResponseBody이다.
+                const message = res.data.message
+                alert((message))
+                
             })
     }
 
