@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -34,16 +35,25 @@ public class UserController {
     }
 
     @PostMapping("/api/login")
-    public Map<String, ?> username(@RequestBody Map<String, ?> map) {
-        String username = (String) map.get("username");
-        String password = (String) map.get("password");
-        System.out.println("리퀘스트가 가져온 이름 : " + username);
-        System.out.println("리퀘스트가 가져온 비밀번호 : " + password);
-        Map<String, String> respMap = new HashMap<>();
-        respMap.put("username", username);
-        respMap.put("password", password);
+    public Map<String, ?> username(@RequestBody Map<?, ?> map) { // @RequestBody : 프론트에서 요청한 데이터가 map에 담긴다.
+        Map<String, Messenger> respMap = new HashMap<>();
+        String username = (String)map.get("username"); // 구현할 때 map의 타입을 가져와야 함.
+        String password = (String)map.get("password");
+        User optUser = userRepository.findByUsername((String) map.get("username")).orElse(null);
+        System.out.println("User is " + null);
+
+        if (optUser == null) {
+            respMap.put("result", Messenger.FAIL);
+        } else if (!optUser.getPassword().equals(password)) {
+            System.out.println("ID is " + username);
+            respMap.put("result", Messenger.WRONG_PASSWORD);
+        } else {
+            System.out.println("ID is " + username);
+            password = optUser.getPassword();
+            System.out.println("Password is " + password);
+            respMap.put("result", Messenger.SUCCESS);
+        }
+
         return respMap;
     }
-
-
 }
