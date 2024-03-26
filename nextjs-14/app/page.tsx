@@ -33,7 +33,7 @@ export default function Home() {
         <Link href="" passHref><div className={styles.gridItem}>type of whiskey</div></Link>
         <Link href="" passHref><div className={styles.gridItem}>recommended whiskey</div></Link>
         <Link href="" passHref><div className={styles.gridItem}>whiskey store</div></Link>
-        <Link href="" passHref><div className={styles.gridItem}>whiskey board</div></Link>
+        <Link href="" passHref><div className={styles.gridItem}>whiskey community</div></Link>
         <Link href="" passHref><div className={styles.gridItem}>event whiskey</div></Link>
       </div>
       <hr></hr>
