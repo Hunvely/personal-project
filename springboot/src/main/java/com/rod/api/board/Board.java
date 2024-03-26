@@ -8,12 +8,14 @@ import lombok.*;
 @Getter
 @ToString(exclude = {"id"})
 public class Board {
-    @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
 
+    @Id
+    @Column(name = "board_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column
     private String boardName;
+    @Column
     private String boardType;
 
     @Builder(builderMethodName = "builder")
