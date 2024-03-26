@@ -43,15 +43,15 @@ public class UserController {
         System.out.println("User is " + null);
 
         if (optUser == null) {
-            respMap.put("result", Messenger.FAIL);
+            respMap.put("message", Messenger.FAIL);
         } else if (!optUser.getPassword().equals(password)) {
             System.out.println("ID is " + username);
-            respMap.put("result", Messenger.WRONG_PASSWORD);
+            respMap.put("message", Messenger.WRONG_PASSWORD);
         } else {
             System.out.println("ID is " + username);
             password = optUser.getPassword();
             System.out.println("Password is " + password);
-            respMap.put("result", Messenger.SUCCESS);
+            respMap.put("message", Messenger.SUCCESS);
         }
 
         return respMap;
