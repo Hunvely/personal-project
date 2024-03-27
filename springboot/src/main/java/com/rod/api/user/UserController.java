@@ -2,16 +2,13 @@ package com.rod.api.user;
 
 import com.rod.api.enums.Messenger;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000") // http://localhost:3000 에서 온 AJAX요청만 받아주겠다는 의미.
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -19,7 +16,7 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping(path = "/api/users")
-    public Map<String, ?> join(@RequestBody Map<?, ?> map) {
+    public Map<String, ?> join(@RequestBody Map<?, ?> map) { // @RequestBody : 요청으로 넘어온 body 값들을 자바 타입으로 변환하겠다는 의미.
 
         Map<String, Messenger> respMap = new HashMap<>();
         User user = userRepository.save(User.builder()
@@ -31,11 +28,12 @@ public class UserController {
                 .build());
         System.out.println("DB 에 저장된 User 정보 : " + user);
         respMap.put("result", Messenger.SUCCESS);
+
         return respMap;
     }
 
     @PostMapping("/api/login")
-    public Map<String, ?> username(@RequestBody Map<?, ?> map) { // @RequestBody : 프론트에서 요청한 데이터가 map에 담긴다.
+    public Map<String, ?> login(@RequestBody Map<?, ?> map) { // @RequestBody : 프론트에서 요청한 데이터가 map에 담긴다.
         Map<String, Messenger> respMap = new HashMap<>();
         String username = (String)map.get("username"); // 구현할 때 map의 타입을 가져와야 함.
         String password = (String)map.get("password");
@@ -53,6 +51,13 @@ public class UserController {
             System.out.println("Password is " + password);
             respMap.put("message", Messenger.SUCCESS);
         }
+
+        return respMap;
+    }
+
+    @PutMapping("/api/updateUserInfo")
+    public Map<String, ?> updateUser(@RequestBody Map<?,?> map) {
+        Map<String,Messenger> respMap = new HashMap<>();
 
         return respMap;
     }
