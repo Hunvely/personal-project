@@ -14,8 +14,11 @@ import java.util.Optional;
 @Service
 public class ArticleServiceImpl  implements ArticleService {
 
+    private final ArticleRepository articleRepo;
 
-    private ArticleRepository articleRepo;
 
-
+    @Override
+    public List<?> findAll() {
+        return articleRepo.findAll();
+    }
 }
