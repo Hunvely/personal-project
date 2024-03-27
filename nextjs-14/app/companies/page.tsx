@@ -1,7 +1,6 @@
 "use client";
-import { useState } from "react";
 import axios from "axios";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 const SERVER = "http://localhost:8080";
 
@@ -13,31 +12,40 @@ interface IArticle {
   registerDate: string;
 }
 
-const Article = (props: IArticle) => {
-  return ( // id는 보여지지 않아야 하기 때문에 td에 넣지 않고 tr에 key 값으로 넣어준다.
-    <tr key = {props.id}>
-      <td>{props.title}</td>
-      <td>{props.content}</td>
-      <td>{props.writer}</td>
-      <td>{props.registerDate}</td>
-    </tr>
-  );
-};
-
 export default function Articles() {
-  const articles = [
-    {
-      id: 0,
-      title: "",
-      content: "",
-      writer: "",
-      registerDate:""
-    }
-  ];
+  const router = useRouter;
+  const [articles, setArticles] = useState([]);
 
-  const articlesList = articles.map((v) => (
-    <Article {...v}/>
-));
+  const url = `${SERVER}/api/articles`;
+  const config = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/json",
+      Authorization: `Bearer blah ~`,
+      "Access-Control-Allow-Origin": "*",
+    },
+  };
+
+  useEffect(() => {
+    axios.get(url, config).then((res) => {
+      const message = res.data.message;
+      console.log(message);
+      if (message === "SUCCESS") {
+        const arr = res.data.result;
+        for (let i of arr) {
+          console.log(i);
+        }
+        setArticles(res.data.result);
+        for (const element of articles) {
+          console.log(element);
+        }
+      } else if (message === "FAIL") {
+        alert("게시물이 없습니다.");
+      } else {
+        alert("지정되지 않은 값");
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -51,7 +59,17 @@ export default function Articles() {
             <th>registerDate</th>
           </tr>
         </thead>
-        <tbody>{articlesList}</tbody>
+        <tbody>
+          {articles.map((props: IArticle) => (
+            // id는 보여지지 않아야 하기 때문에 td에 넣지 않고 tr에 key 값으로 넣어준다.
+            <tr key={props.id}>
+              <td>{props.title}</td>
+              <td>{props.content}</td>
+              <td>{props.writer}</td>
+              <td>{props.registerDate}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </>
   );
