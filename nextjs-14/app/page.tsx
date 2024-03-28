@@ -1,69 +1,49 @@
-"use client";
-import { useState } from "react";
-import axios from "axios";
+'use client'
+
+import { useState } from "react"
+import axios from 'axios';
 import Link from "next/link";
-import styles from "./main.module.css";
-import './globals.css';
-const SERVER = "http://localhost:8080";
+import { Button, Input } from "@mui/material";
+import { PG } from "./atoms/enums/PG";
+import AxiosConfig from "./organisms/configs/axios-config";
 
+const SERVER = 'http://localhost:8080'
 export default function Home() {
-  const [name, setName] = useState("");
+  const [name, setName] = useState('')
+  const handleChange = (e: any) => {
+    setName(e.target.value)
+  }
 
-  return (// html 가운데 정렬
-  <div className='flex justify-center items-center'>
-    <div className={styles.container}>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <div>
-          <Link href="/login" className={styles.link}>
-            Sign in |
-          </Link>
-        </div>
-        <div>
-          <Link href="/join" className={styles.link}>
-            | Sign up |
-          </Link>
-        </div>
-        <div>
-        <Link href="/mui-demo" className={styles.link}>
-            | mui-demo
-          </Link>
-        </div>
-      </div>
-      <h1 className={styles.title}>Whiskey</h1>
-      <p className={styles.subtitle}>Start on your journey.</p>
-      <div className={styles.description}>
-        <p>Whiskey is a liquor with a assortment of scents and flavors.</p>
-        <p>
-          It is produced all over the world, and tastes shift depending on
-          region, ingredients, and manufacturing process.
-        </p>
-      </div>
-      <hr></hr>
+  const handleClick = () => {
+    alert('리퀘스트가 가져가는 이름 : ' + name)
+    const url = `${SERVER}/name`
+    const data = { 'name': name }
+    axios.post(url, data, AxiosConfig())
+      .then(res => {
+        alert('alert : ' + JSON.stringify(res.data))
+        console.log('console : ' + JSON.stringify(res.data))
+      }
+      )
 
-      <div className={styles.gridContainer}>
-        <Link href="" passHref>
-          <div className={styles.gridItem}>whiskey story</div>
-        </Link>
-        <Link href="" passHref>
-          <div className={styles.gridItem}>type of whiskey</div>
-        </Link>
-        <Link href="" passHref>
-          <div className={styles.gridItem}>recommended whiskey</div>
-        </Link>
-        <Link href="" passHref>
-          <div className={styles.gridItem}>whiskey store</div>
-        </Link>
-        <Link href="" passHref>
-          <div className={styles.gridItem}>whiskey community</div>
-        </Link>
-        <Link href="" passHref>
-          <div className={styles.gridItem}>event whiskey</div>
-        </Link>
-      </div>
-      <hr></hr>
+  }
 
-      <div className={styles.footer}></div>
-    </div>
-    </div>
-  );
+  return (
+  <div className='margincenter w-4/5 my-[30px] border-double border-4'>
+    <div className="text-3xl font-bold underline text-center">welcom to react world !!</div><br />
+    <span className='text-red-500 mr-5'>이름 입력</span>
+    <Input type="text" onChange={handleChange} className="mr-5" />
+    <Button variant="outlined" onClick={handleClick}>전 송</Button>
+    <br />
+    <br />
+    <Link href={`${PG.USER}/login`} className="underline" >로그인</Link><br />
+    <Link href={`${PG.USER}/join`} className="underline">회원가입</Link><br />
+    <Link href={`${PG.DEMO}/mui-demo`} className="underline">MUI 데모</Link><br />
+    <Link href={`${PG.DEMO}/companies`} className="underline">회사</Link><br />
+    <Link href={`${PG.DEMO}/counter`} className="underline">Counter</Link>
+
+
+  </div>
+  )
+
+
 }
