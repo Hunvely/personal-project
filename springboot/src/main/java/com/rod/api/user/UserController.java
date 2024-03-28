@@ -32,11 +32,13 @@ public class UserController {
         return respMap;
     }
 
-    @PostMapping("/api/login")
+    @PostMapping("/api/auth")
     public Map<String, ?> login(@RequestBody Map<?, ?> map) { // @RequestBody : 프론트에서 요청한 데이터가 map에 담긴다.
         Map<String, Messenger> respMap = new HashMap<>();
-        String username = (String)map.get("username"); // 구현할 때 map의 타입을 가져와야 함.
-        String password = (String)map.get("password");
+
+        String username = (String) map.get("username"); // 구현할 때 map의 타입을 가져와야 함.
+        String password = (String) map.get("password");
+
         User optUser = userRepository.findByUsername((String) map.get("username")).orElse(null);
         System.out.println("User is " + null);
 
@@ -56,8 +58,33 @@ public class UserController {
     }
 
     @PutMapping("/api/updateUserInfo")
-    public Map<String, ?> updateUser(@RequestBody Map<?,?> map) {
-        Map<String,Messenger> respMap = new HashMap<>();
+    public Map<String, ?> updateUser(@RequestBody Map<?, ?> map) {
+        Map<String, Messenger> respMap = new HashMap<>();
+
+        return respMap;
+    }
+
+    @PostMapping("api/withdrawal")
+    public Map<String, ?> withdrawal(@RequestBody Map<?, ?> map) {
+        Map<String, Messenger> respMap = new HashMap<>();
+
+        String username = (String) map.get("username");
+        String password = (String) map.get("password");
+/*
+        User optUser = userRepository.deleteByUsername(() map.get("username")).orElse(null);
+        System.out.println("User is " + null);
+
+        if (optUser == null) {
+            respMap.put("message", Messenger.FAIL);
+        } else if (!optUser.getPassword().equals(password)) {
+            System.out.println("ID is " + username);
+            respMap.put("message", Messenger.WRONG_PASSWORD);
+        } else {
+            System.out.println("ID is " + username);
+            password = optUser.getPassword();
+            System.out.println("Password is " + password);
+            respMap.put("message", Messenger.SUCCESS);
+        }*/
 
         return respMap;
     }
