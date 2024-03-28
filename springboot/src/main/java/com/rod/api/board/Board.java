@@ -1,9 +1,13 @@
 package com.rod.api.board;
 
+import com.rod.api.article.Article;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity(name="board")
+import java.util.List;
+
+@Entity
+@Table(name = "TABLE_BOARD")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = {"id"})
@@ -17,6 +21,7 @@ public class Board {
     private String boardName;
     @Column
     private String boardType;
+
 
     @Builder(builderMethodName = "builder")
     public Board(String boardName, String boardType) {

@@ -1,11 +1,13 @@
 package com.rod.api.user;
 
+import com.rod.api.article.Article;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
 
-@Entity(name="users")
+@Entity
+@Table(name="TABLE_USER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = {"id"})
@@ -24,6 +26,10 @@ public class User {
     private String phoneNumber;
     @Column
     private String eMail;
+
+    @OneToMany
+    @JoinColumn(name = "users_user_id", referencedColumnName = "user_id")
+    private List<Article> articles;
 
 
 

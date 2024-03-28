@@ -1,5 +1,7 @@
 package com.rod.api.article;
 
+import com.rod.api.board.Board;
+import com.rod.api.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +23,10 @@ public class Article {
     @Column
     private String registerDate;
 
+    @ManyToOne
+    private Board board;
+    @ManyToOne
+    private User user;
     @Builder(builderMethodName = "builder")
     public Article(Long id, String title, String content, String writer, String registerDate) {
         this.id = id;
