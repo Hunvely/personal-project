@@ -4,6 +4,7 @@ import axios from 'axios';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from './Join.module.css';
+import AxiosConfig from "@/app/organisms/configs/axios-config";
 const SERVER = 'http://localhost:8080'
 export default function Join() {
 
@@ -31,21 +32,14 @@ export default function Join() {
 
     const router = useRouter()
     
-    const handleSubmit = () => {
-        alert('리퀘스트가 가져가는 username : ' + username + ' password : ' + password + ' name : ' + name + ' phoneNumber : '  + phoneNumber + ' eMail : ' + eMail)
+    const handleSubmit = (e:any) => {
+        e.preventDefault();
         const url = `${SERVER}/api/users`
         const data = {username, password, name, phoneNumber, eMail}
-        const config = {
-            headers:{
-                "Cache-Control": "no-cache",
-                "Content-Type": "application/json",
-                Authorization: `Bearer blah ~` ,
-                "Access-Control-Allow-Origin": "*",
-            }}
-            axios.post(url, data, config)
+            axios.post(url, data, AxiosConfig())
             .then(res => {
               alert(JSON.stringify(res.data))
-            router.push("/login")
+            router.push("/pages/users/login")
       })
     }
     return(<>
