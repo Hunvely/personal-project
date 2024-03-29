@@ -1,4 +1,6 @@
-export default function Articles(){
+import { NextPage } from "next"
+
+const ArticlesPage:NextPage = () => {
   return (<>
       <h2>HTML Table</h2>
 
@@ -41,3 +43,5 @@ export default function Articles(){
 </table>
       </>)
 }
+
+export default ArticlesPage

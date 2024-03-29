@@ -3,9 +3,10 @@ import { useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { NextPage } from "next";
 const SERVER = "http://localhost:8080";
 
-export default function Login() {
+const LoginPage:NextPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -61,3 +62,5 @@ export default function Login() {
     </>
   );
 }
+
+export default LoginPage

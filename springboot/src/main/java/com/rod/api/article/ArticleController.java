@@ -16,7 +16,7 @@ public class ArticleController {
 
     private final ArticleServiceImpl articleService;
 
-    @GetMapping("/api/articles")
+    @GetMapping("/api/all-articles")
     public Map<?, ?> findAll() {
         Map<String, Object> map = new HashMap<>();
         map.put("message", Messenger.SUCCESS);

@@ -1,3 +1,5 @@
+import { NextPage } from "next";
+
 const Company = (props: ICompany) => {
   return (
      <tr key={props.id}>
@@ -8,7 +10,7 @@ const Company = (props: ICompany) => {
   );
 };
 
-export default function Companies(){
+const CompaniesPage:NextPage = () =>{
 
   const companies = [
       {id:0,company:'Alfreds Futterkiste',contact:'Maria Anders',country:'Germany'},
@@ -39,3 +41,5 @@ export default function Companies(){
 </table>
       </>)
 }
+
+export default CompaniesPage

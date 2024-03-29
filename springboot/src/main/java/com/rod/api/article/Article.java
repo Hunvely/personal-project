@@ -5,7 +5,8 @@ import com.rod.api.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity(name = "articles")
+@Entity()
+@Table(name = "articles")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = {"id"})
@@ -23,13 +24,14 @@ public class Article {
     @Column
     private String registerDate;
 
-    @ManyToOne
-    private Board board;
-    @ManyToOne
-    private User user;
+//    @ManyToOne
+//    //@JoinColumn(name = "board_id")
+//    private Board board;
+//    @ManyToOne
+//    //@JoinColumn(name = "user_id")
+//    private User user;
     @Builder(builderMethodName = "builder")
-    public Article(Long id, String title, String content, String writer, String registerDate) {
-        this.id = id;
+    public Article(String title, String content, String writer, String registerDate) {
         this.title = title;
         this.content = content;
         this.writer = writer;

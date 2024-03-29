@@ -7,7 +7,7 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name="TABLE_USER")
+@Table(name="users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = {"id"})
@@ -27,10 +27,9 @@ public class User {
     @Column
     private String eMail;
 
-    @OneToMany
-    @JoinColumn(name = "users_user_id", referencedColumnName = "user_id")
-    private List<Article> articles;
-
+//    @OneToMany(mappedBy = "user")
+//    private List<Article> articles;
+//
 
 
     @Builder(builderMethodName = "builder")
@@ -41,6 +40,5 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.eMail = eMail;
     }
-
 }
 

@@ -4,9 +4,10 @@ import axios from 'axios';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from './Join.module.css';
-import AxiosConfig from "@/app/organisms/configs/axios-config";
+import AxiosConfig from "@/redux/common/configs/axios-config";
+import { NextPage } from "next";
 const SERVER = 'http://localhost:8080'
-export default function Join() {
+const JoinPage:NextPage = () => {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -69,3 +70,5 @@ export default function Join() {
     </>
     )
 }
+
+export default JoinPage

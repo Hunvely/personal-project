@@ -7,7 +7,7 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "TABLE_BOARD")
+@Table(name = "board")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = {"id"})
@@ -15,13 +15,15 @@ public class Board {
 
     @Id
     @Column(name = "board_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String boardName;
     @Column
     private String boardType;
 
+//    @OneToMany(mappedBy = "board")
+//    private List<Article> articles;
 
     @Builder(builderMethodName = "builder")
     public Board(String boardName, String boardType) {
