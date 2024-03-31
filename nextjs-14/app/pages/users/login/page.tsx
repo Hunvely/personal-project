@@ -38,7 +38,7 @@ const LoginPage:NextPage = () => {
         const message = res.data.message;
         alert(message);
         if (message === "SUCCESS") {
-          router.push("/pages/board/articles/writer");
+          router.push("/pages/boards/articles/writer");
         } else if (message === "FAIL") {
         } else if (message === "WRONG_PASSWORD") {
         } else {
