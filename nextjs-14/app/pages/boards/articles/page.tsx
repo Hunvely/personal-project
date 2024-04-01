@@ -1,17 +1,17 @@
-
 'use client'
 
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { DataGrid } from '@mui/x-data-grid';
 import { useState, useEffect } from "react"
-import { Box, Button, Input } from '@mui/material';
+import {Box, Button, Input} from '@mui/material';
 import AxiosConfig from "@/redux/common/configs/axios-config";
 import { API } from "@/redux/common/enums/API";
 import { useSelector, useDispatch } from 'react-redux'
 import { NextPage } from "next";
-import React from "react";
-import { getAllArticles } from "@/redux/features/articles/article.service";
+import { fetchAllArticles } from "@/redux/features/articles/article.service";
+import { getAllArticles } from "@/redux/features/articles/article.slice";
+// import React from "react";
 
 interface IArticle {
     id: number,
@@ -21,15 +21,27 @@ interface IArticle {
     registerDate: string
 }
 
-const WriterPage: NextPage = () => {
-
+const ArtilcesPage: NextPage = () => {
     const dispatch = useDispatch()
-    const [articles, setArticles] = useState([])
+ 
+   const allArticles: [] = useSelector(getAllArticles)
+
+    if(allArticles !== undefined){
+        console.log('allArticles is not undefined')
+        
+        console.log('length is '+ allArticles.length)
+        for(let i=0; i< allArticles.length; i++){
+            console.log(JSON.stringify(allArticles[i]))
+        }
+    }else{
+        console.log('allArticles is undefined')
+    }
+    
 
     useEffect(() => {
-       dispatch(getAllArticles())
+        dispatch(fetchAllArticles(1))
     }, [])
-
+    
     return (<>
         <h2>개인페이지 Article</h2>
         <table border={1}>
@@ -42,7 +54,7 @@ const WriterPage: NextPage = () => {
                 </tr>
             </thead>
             <tbody>
-                {articles.map((props: IArticle) => (
+                {allArticles?.map((props: IArticle) => (
                     <tr key={props.id}>
                         <td>{props.title}</td>
                         <td>{props.content}</td>
@@ -55,4 +67,4 @@ const WriterPage: NextPage = () => {
     </>)
 }
 
-export default WriterPage
+export default ArtilcesPage
