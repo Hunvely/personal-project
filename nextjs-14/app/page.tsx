@@ -1,6 +1,5 @@
 'use client'
 
-
 import { useState } from "react"
 import axios from 'axios';
 import Link from "next/link";
@@ -60,6 +59,8 @@ const HomePage: NextPage = () => {
             <PermIdentityIcon onClick={() => toggleMenu()} style={{ cursor: 'pointer' }}></PermIdentityIcon><br />
             <Link href={`${PG.USER}/login`}>sign in</Link><br />
             <Link href={`${PG.USER}/join`}>sign up</Link><br />
+            <Link href={`${PG.USER}/withdrawal`}>user withdrawal</Link><br />
+
           </nav>
         </div>
         <div className={styles.content}>Start on your Journey.
