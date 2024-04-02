@@ -24,7 +24,7 @@ const WithdrawalPage: NextPage = () => {
     const handleSubmit = () => {
         const url = `${SERVER}/api/withdrawal/${username}?password=${password}`;
         axios
-            .delete(url, { data })
+            .delete(url, { data: { password } })
             .then((res) => {
                 const message = res.data.message;
                 alert(message);

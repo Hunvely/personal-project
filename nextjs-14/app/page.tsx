@@ -52,7 +52,7 @@ const HomePage: NextPage = () => {
             <Link href={`${PG.BOARD}/articles`}>전체 게시글</Link>
           </nav>
 
-          <h1><Link href={"/"} style={{ flex: 1, justifyContent: 'center', textAlign: 'center' }} className="text-2xl">BOTTLER</Link></h1>
+          <h1><Link href={""} style={{ flex: 1, justifyContent: 'center', textAlign: 'center' }} className="text-2xl">BOTTLER</Link></h1>
           <br />
 
           <nav style={{ flex: 1, justifyContent: 'flex-end', textAlign: 'end' }} className={menuOpen ? 'active' : ''}>
@@ -66,7 +66,7 @@ const HomePage: NextPage = () => {
         <div className={styles.content}>Start on your Journey.
         </div>
         <button className={styles.button}>
-        <Link href={"/"}>Learn more</Link>
+        <Link href={""}>Learn more</Link>
         </button>
       </div>
       <div style={{justifyContent: 'space-between'}}>
@@ -96,7 +96,7 @@ const HomePage: NextPage = () => {
         Tel:+82-4816-9140 Email:jihoon9611@gmail.com <br />
         Cheongdam-dong, Gangnam-gu, Seoul, Republic of Korea <br /><br />
         Copyright © 2024. Hunvely. All Rights Reserved. <br /><br />
-        <Link href={"/"} className="text-2xl text-center">BOTTLER</Link>
+        <Link href={""} className="text-2xl text-center">BOTTLER</Link>
       </footer>
     </>
   )
