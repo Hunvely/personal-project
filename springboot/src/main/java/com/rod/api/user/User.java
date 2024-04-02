@@ -27,10 +27,8 @@ public class User {
     @Column
     private String eMail;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Article> articles;
-//
-
+    @OneToMany(mappedBy = "writer")
+    private List<Article> articles;
 
     @Builder(builderMethodName = "builder")
     public User(String username, String password, String name, String phoneNumber, String eMail) {

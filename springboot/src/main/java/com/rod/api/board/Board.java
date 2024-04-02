@@ -22,8 +22,8 @@ public class Board {
     @Column
     private String boardType;
 
-//    @OneToMany(mappedBy = "board")
-//    private List<Article> articles;
+    @OneToMany(mappedBy = "board")
+    private List<Article> articles;
 
     @Builder(builderMethodName = "builder")
     public Board(String boardName, String boardType) {
