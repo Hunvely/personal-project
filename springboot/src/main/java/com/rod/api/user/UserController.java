@@ -65,10 +65,10 @@ public class UserController {
     }
 
     @DeleteMapping("api/withdrawal/{username}")
-    public Map<String, ?> withdrawal(@PathVariable String username, @RequestBody Map<String, String> requestBody) {
+    public Map<String, ?> withdrawal(@PathVariable String username, @RequestBody Map<?, ?> requestBody) {
         Map<String, Messenger> respMap = new HashMap<>();
 
-        String password = requestBody.get("password"); // 요청 본문에서 비밀번호 추출
+        String password = (String)requestBody.get("password"); // 요청 본문에서 비밀번호 추출
 
         User optUser = userRepository.findByUsername(username).orElse(null);
 
