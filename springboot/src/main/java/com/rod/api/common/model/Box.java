@@ -1,4 +1,4 @@
-package com.rod.api.common;
+package com.rod.api.common.model;
 
 import java.util.HashMap;
 import java.util.List;
