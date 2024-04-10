@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +56,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> findByName(String name) {
-        return null;
+        List<User> user = userRepository.findByName(name);
+        if (user != null) {
+            return user.stream().map(i -> entityToDto(i)).toList();
+        } else {
+            log.warn("No users found with the name: {}", name);
+
+            return Collections.emptyList(); // 빈 리스트 반환 -> NullPointException 방지 가능
+        }
     }
 
     @Override

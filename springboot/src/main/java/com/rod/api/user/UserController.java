@@ -53,4 +53,11 @@ public class UserController {
 
         return userOptional.map(i -> ResponseEntity.ok(i)).orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping(path = "/search")
+    public ResponseEntity<List<UserDto>> findByName(@RequestParam String name) {
+        log.info("Received request to find user with username: {}", name);
+
+        return ResponseEntity.ok(userService.findByName(name));
+    }
 }
