@@ -39,25 +39,56 @@ public class UserController {
     }
 
     @DeleteMapping(path = "/delete")
-    public ResponseEntity<Messenger> deleteById(@RequestParam Long id) {
+    public ResponseEntity<Messenger> deleteById(@RequestBody Long id) {
         log.info("Received request to delete user with ID: {}", id);
 
         return ResponseEntity.ok(userService.deleteById(id));
     }
 
-    @GetMapping(path = "/search")
+    @GetMapping(path = "/search/username")
     public ResponseEntity<UserDto> findByUsername(@RequestParam String username) {
         log.info("Received request to find user with username: {}", username);
 
-        Optional<UserDto> userOptional = userService.findByUsername(username);
+        Optional<UserDto> userDtoOptional = userService.findByUsername(username);
 
-        return userOptional.map(i -> ResponseEntity.ok(i)).orElse(ResponseEntity.notFound().build());
+        return userDtoOptional.map(i -> ResponseEntity.ok(i)).orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping(path = "/search")
+    @GetMapping(path = "/search/name")
     public ResponseEntity<List<UserDto>> findByName(@RequestParam String name) {
         log.info("Received request to find user with username: {}", name);
 
         return ResponseEntity.ok(userService.findByName(name));
+    }
+
+    @GetMapping(path = "/search/id")
+    public ResponseEntity<UserDto> findById(@RequestParam Long id) {
+        log.info("Received request to find user with id: {}", id);
+
+        Optional<UserDto> userDtoOptional = userService.findById(id);
+
+        return userDtoOptional.map(i -> ResponseEntity.ok(i)).orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping(path = "/search/email")
+    public ResponseEntity<UserDto> findByEmail(@RequestParam String email) {
+        log.info("Received request to find user with email: {}", email);
+
+        Optional<UserDto> userDtoOptional = userService.findByEmail(email);
+
+        return userDtoOptional.map(i -> ResponseEntity.ok(i)).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping(path = "/modify")
+    public ResponseEntity<Messenger> modify(@RequestParam UserDto userDto) {
+
+        log.info("Received request to modify user: {}", userDto);
+
+        return ResponseEntity.ok(userService.modify(userDto));
+    }
+
+    @GetMapping(path = "/count")
+    public ResponseEntity<Long> count() {
+        return ResponseEntity.ok(userService.count());
     }
 }

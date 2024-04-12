@@ -1,6 +1,6 @@
 package com.rod.api.user.model;
 
-import com.rod.api.article.Article;
+import com.rod.api.article.model.Article;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

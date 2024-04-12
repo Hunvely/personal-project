@@ -23,13 +23,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public Messenger save(UserDto userDto) {
         entityToDto(userRepository.save(dtoToEntity(userDto)));
-        return new Messenger();
+
+        return Messenger.builder()
+                .message("SUCCESS")
+                .build();
     }
 
     @Override
     public Messenger deleteById(Long id) {
         userRepository.deleteById(id);
-        return new Messenger();
+        String msg = userRepository.findById(id).isPresent() ? "SUCCESS" : "FAILURE";
+
+        return Messenger.builder()
+                .message(msg)
+                .build();
     }
 
     @Override
@@ -42,16 +49,27 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
+
             return Optional.of(entityToDto(user));
         } else {
             log.warn("User with username '{}' not found.", username);
+
             return Optional.empty();
         }
     }
 
     @Override
     public Optional<UserDto> findById(Long id) {
-        return Optional.empty();
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            return Optional.of(entityToDto(user));
+        } else {
+            log.warn("User with id '{}' not found.", id);
+
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -67,23 +85,48 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findByEmail(String email) {
-        return null;
-    }
+    public Optional<UserDto> findByEmail(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
 
-    @Override
-    public long count() {
-        return 0;
-    }
+            return Optional.of(entityToDto(user));
+        } else {
+            log.warn("User with email '{}' not found.", email);
 
-    @Override
-    public Boolean existById(Long id) {
-        return null;
+            return Optional.empty();
+        }
     }
 
     @Override
     public Messenger modify(UserDto userDto) {
-        return null;
+        Optional<User> optionalUser = userRepository.findById(userDto.getId());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            user.setPassword(userDto.getPassword());
+            user.setPhone(userDto.getPhone());
+            user.setEmail(userDto.getEmail());
+
+            userRepository.save(user);
+
+            return new Messenger();
+        } else {
+            log.warn("User with ID '{}' not found.", userDto.getId());
+
+            return new Messenger();
+        }
+    }
+
+    @Override
+    public long count() {
+        return userRepository.count();
+    }
+
+    @Override
+    public Boolean existById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        return optionalUser.isPresent();
     }
 
     @Override
