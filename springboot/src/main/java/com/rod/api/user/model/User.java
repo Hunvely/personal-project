@@ -1,6 +1,6 @@
 package com.rod.api.user.model;
 
-import com.rod.api.article.Article;
+import com.rod.api.article.model.Article;
 import com.rod.api.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,12 +20,15 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+    @Setter
     private String password;
     private String name;
+    @Setter
     private String phone;
+    @Setter
     private String email;
 
-    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Article> articles;
 
 }
