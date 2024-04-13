@@ -1,4 +1,4 @@
-package com.rod.api.board;
+package com.rod.api.board.repository;
 
 import org.springframework.stereotype.Repository;
 

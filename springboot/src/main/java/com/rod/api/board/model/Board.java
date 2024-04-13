@@ -1,6 +1,6 @@
-package com.rod.api.board;
+package com.rod.api.board.model;
 
-import com.rod.api.article.Article;
+import com.rod.api.article.model.Article;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,6 +10,8 @@ import java.util.List;
 @Table(name = "board")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Builder
+@AllArgsConstructor
 @ToString(exclude = {"id"})
 public class Board {
 
@@ -17,18 +19,11 @@ public class Board {
     @Column(name = "board_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
     private String boardName;
-    @Column
     private String boardType;
 
     @OneToMany(mappedBy = "board")
     private List<Article> articles;
 
-    @Builder(builderMethodName = "builder")
-    public Board(String boardName, String boardType) {
-        this.boardName = boardName;
-        this.boardType = boardType;
-    }
 }
 
