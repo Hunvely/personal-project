@@ -1,9 +1,11 @@
 package com.rod.api.board.service;
 
+import com.rod.api.board.model.Board;
 import com.rod.api.board.model.BoardDto;
 import com.rod.api.board.repository.BoardRepository;
 import com.rod.api.common.component.Messenger;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -12,18 +14,27 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class BoardServiceImpl implements BoardService{
+@Slf4j
+public class BoardServiceImpl implements BoardService {
 
-    private BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
 
     @Override
     public Messenger save(BoardDto boardDto) {
-        return null;
+        entityToDto(boardRepository.save(dtoToEntity(boardDto)));
+        return Messenger.builder()
+                .message("SUCCESS")
+                .build();
     }
 
     @Override
     public Messenger deleteById(Long id) {
-        return null;
+        boardRepository.deleteById(id);
+        String msg = boardRepository.findById(id).isPresent() ? "SUCCESS" : "FAILURE";
+
+        return Messenger.builder()
+                .message(msg)
+                .build();
     }
 
     @Override
@@ -33,21 +44,32 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public List<BoardDto> findAll() throws SQLException {
-        return null;
+        return boardRepository.findAll().stream().map(i -> entityToDto(i)).toList();
     }
 
     @Override
     public Optional<BoardDto> findById(Long id) {
-        return Optional.empty();
+        Optional<Board> optionalBoard = boardRepository.findById(id);
+        if (optionalBoard.isPresent()) {
+            Board board = optionalBoard.get();
+
+            return Optional.of(entityToDto(board));
+        } else {
+            log.warn("Board with id '{}' not found.", id);
+
+            return Optional.empty();
+        }
     }
 
     @Override
     public long count() {
-        return 0;
+        return boardRepository.count();
     }
 
     @Override
     public Boolean existById(Long id) {
-        return null;
+        Optional<Board> optionalBoard = boardRepository.findById(id);
+
+        return optionalBoard.isPresent();
     }
 }
