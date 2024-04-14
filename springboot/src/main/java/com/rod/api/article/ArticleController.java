@@ -40,9 +40,22 @@ public class ArticleController {
     }
 
     @DeleteMapping(path = "/delete")
-    public ResponseEntity<Messenger> deleteById(@RequestParam Long id) {
+    public ResponseEntity<Messenger> deleteById(@RequestBody Long id) {
         log.info("Received request to delete article with ID: {}", id);
 
         return ResponseEntity.ok(articleService.deleteById(id));
+    }
+
+    @GetMapping(path = "/count")
+    public ResponseEntity<Long> count() {
+
+        return ResponseEntity.ok(articleService.count());
+    }
+
+    @PatchMapping(path = "/modify")
+    public ResponseEntity<Messenger> modify(@RequestParam ArticleDto articleDto) {
+        log.info("Received request to modify article: {}", articleDto);
+
+        return ResponseEntity.ok(articleService.modify(articleDto));
     }
 }

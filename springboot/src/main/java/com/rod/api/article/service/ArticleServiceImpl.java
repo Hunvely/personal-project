@@ -43,7 +43,26 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Messenger modify(ArticleDto articleDto) {
-        return null;
+        Optional<Article> optionalArticle = articleRepository.findById(articleDto.getId());
+        if (optionalArticle.isPresent()) {
+            ArticleDto updateArticle = articleDto.toBuilder()
+                    .title(articleDto.getTitle())
+                    .content(articleDto.getContent())
+                    .build();
+
+            articleRepository.save(dtoToEntity(updateArticle));
+
+            return Messenger.builder()
+                    .message("update SUCCESS")
+                    .build();
+        }
+        else{
+            log.warn("Article with ID '{}' not found.", articleDto.getId());
+
+            return Messenger.builder()
+                    .message("update FAILURE")
+                    .build();
+        }
     }
 
     @Override
@@ -58,7 +77,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public long count() {
-        return 0;
+        return articleRepository.count();
     }
 
     @Override

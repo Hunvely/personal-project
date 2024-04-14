@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 public class ArticleDto {
 
     private Long id;
