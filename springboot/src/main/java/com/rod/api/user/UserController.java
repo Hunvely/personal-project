@@ -81,7 +81,6 @@ public class UserController {
 
     @PutMapping(path = "/modify")
     public ResponseEntity<Messenger> modify(@RequestParam UserDto userDto) {
-
         log.info("Received request to modify user: {}", userDto);
 
         return ResponseEntity.ok(userService.modify(userDto));
@@ -90,5 +89,12 @@ public class UserController {
     @GetMapping(path = "/count")
     public ResponseEntity<Long> count() {
         return ResponseEntity.ok(userService.count());
+    }
+
+    @PostMapping(path = "/login")
+    public ResponseEntity<Messenger> login(@RequestBody UserDto userDto) {
+        log.info("입력받은 정보 : {}", userDto);
+
+        return ResponseEntity.ok(userService.login(userDto));
     }
 }

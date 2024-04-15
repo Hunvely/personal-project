@@ -1,5 +1,7 @@
 package com.rod.api.user.service;
 
+import com.rod.api.article.model.Article;
+import com.rod.api.article.repository.ArticleRepository;
 import com.rod.api.common.component.Messenger;
 import com.rod.api.user.model.User;
 import com.rod.api.user.model.UserDto;
@@ -19,6 +21,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ArticleRepository articleRepository;
 
     @Override
     public Messenger save(UserDto userDto) {
@@ -102,19 +105,31 @@ public class UserServiceImpl implements UserService {
     public Messenger modify(UserDto userDto) {
         Optional<User> optionalUser = userRepository.findById(userDto.getId());
         if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
+            UserDto updateUser = userDto.toBuilder()
+                    .password(userDto.getPassword())
+                    .phone(userDto.getPhone())
+                    .email(userDto.getEmail())
+                    .build();
+            List<Article> articles = updateUser.getArticles();
+            if (articles != null) {
+                articles.forEach(article -> {
+                    Article updateArticle = article.toBuilder()
+                            .writer(dtoToEntity(updateUser))
+                            .build();
+                    articleRepository.save(updateArticle);
+                });
+            }
+            userRepository.save(dtoToEntity(updateUser));
 
-            user.setPassword(userDto.getPassword());
-            user.setPhone(userDto.getPhone());
-            user.setEmail(userDto.getEmail());
-
-            userRepository.save(user);
-
-            return new Messenger();
+            return Messenger.builder()
+                    .message("update SUCCESS")
+                    .build();
         } else {
             log.warn("User with ID '{}' not found.", userDto.getId());
 
-            return new Messenger();
+            return Messenger.builder()
+                    .message("update FAIL")
+                    .build();
         }
     }
 
@@ -130,7 +145,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Messenger login(UserDto param) {
-        return null;
+    public Messenger login(UserDto userDto) {
+        return Messenger.builder()
+                .message(findByUsername(userDto.getUsername()).get().getPassword().equals(userDto.getPassword()) ? "SUCCESS" : "FAILURE")
+                .build();
     }
 }
