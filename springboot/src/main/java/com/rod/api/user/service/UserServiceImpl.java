@@ -2,6 +2,7 @@ package com.rod.api.user.service;
 
 import com.rod.api.article.model.Article;
 import com.rod.api.article.repository.ArticleRepository;
+import com.rod.api.common.component.JwtProvider;
 import com.rod.api.common.component.Messenger;
 import com.rod.api.user.model.User;
 import com.rod.api.user.model.UserDto;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
+    private final JwtProvider jwtProvider;
 
     @Override
     public Messenger save(UserDto userDto) {
@@ -146,8 +148,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Messenger login(UserDto userDto) {
+        boolean flag = userRepository.findByUsername(userDto.getUsername()).get().getPassword().equals(userDto.getPassword());
+
         return Messenger.builder()
-                .message(findByUsername(userDto.getUsername()).get().getPassword().equals(userDto.getPassword()) ? "SUCCESS" : "FAILURE")
+                .message(flag ? "SUCCESS" : "FAILURE")
+                .token(flag ? jwtProvider.createToken(userDto) : "None")
                 .build();
+
     }
 }
