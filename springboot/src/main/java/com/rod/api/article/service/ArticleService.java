@@ -25,4 +25,6 @@ public interface ArticleService extends CommandService<ArticleDto>, QueryService
                 .content(article.getContent())
                 .build();
     }
+
+    List<ArticleDto> findAllByBoardId(Long id);
 }

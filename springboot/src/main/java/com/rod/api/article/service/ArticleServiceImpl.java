@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,8 +56,7 @@ public class ArticleServiceImpl implements ArticleService {
             return Messenger.builder()
                     .message("update SUCCESS")
                     .build();
-        }
-        else{
+        } else {
             log.warn("Article with ID '{}' not found.", articleDto.getId());
 
             return Messenger.builder()
@@ -83,5 +83,17 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Boolean existById(Long id) {
         return null;
+    }
+
+    @Override
+    public List<ArticleDto> findAllByBoardId(Long id) {
+        List<Article> articles = articleRepository.findAllByBoardId(id);
+        if (articles != null) {
+            return articles.stream().map(i -> entityToDto(i)).toList();
+        } else {
+            log.warn("No board found with the id: {}", id);
+
+            return Collections.emptyList();
+        }
     }
 }

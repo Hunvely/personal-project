@@ -58,4 +58,9 @@ public class ArticleController {
 
         return ResponseEntity.ok(articleService.modify(articleDto));
     }
+
+    @GetMapping(path = "/list/{boardId}")
+    public ResponseEntity<List<ArticleDto>> findAllByBoardId(@PathVariable("boardId") Long id) {
+        return ResponseEntity.ok(articleService.findAllByBoardId(id));
+    }
 }
