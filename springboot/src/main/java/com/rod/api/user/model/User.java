@@ -16,7 +16,6 @@ import java.util.List;
 @ToString(exclude = {"id"})
 public class User extends BaseEntity {
     @Id
-    @Column(name = "user_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;

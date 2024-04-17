@@ -5,16 +5,15 @@ import com.rod.api.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity()
+@Entity
 @Table(name = "articles")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @ToString(exclude = {"id"})
 public class Article {
     @Id
-    @Column(name = "article_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;

@@ -16,11 +16,10 @@ import java.util.List;
 public class Board {
 
     @Id
-    @Column(name = "board_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String boardName;
-    private String boardType;
+    private String title;
+    private String description;
 
     @OneToMany(mappedBy = "board")
     private List<Article> articles;
