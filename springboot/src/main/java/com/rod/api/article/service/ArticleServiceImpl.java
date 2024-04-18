@@ -3,7 +3,11 @@ package com.rod.api.article.service;
 import com.rod.api.article.model.Article;
 import com.rod.api.article.model.ArticleDto;
 import com.rod.api.article.repository.ArticleRepository;
+import com.rod.api.board.model.Board;
+import com.rod.api.board.repository.BoardRepository;
 import com.rod.api.common.component.Messenger;
+import com.rod.api.user.model.User;
+import com.rod.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,12 +23,28 @@ import java.util.Optional;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final UserRepository userRepository;
+    private final BoardRepository boardRepository;
 
     @Override
     public Messenger save(ArticleDto articleDto) {
-        entityToDto(articleRepository.save(dtoToEntity(articleDto)));
 
-        return new Messenger();
+        User writer = userRepository.findById(articleDto.getWriterId()).orElse(null);
+        Board board = boardRepository.findById(articleDto.getBoardId()).orElse(null);
+
+        Article article = Article.builder()
+                .title(articleDto.getTitle())
+                .content(articleDto.getContent())
+                .writer(writer)
+                .board(board)
+                .build();
+
+        Long saveArticleId = articleRepository.save(article).getId();
+
+
+        return Messenger.builder()
+                .message("SUCCESS Article ID : " + saveArticleId)
+                .build();
     }
 
     @Override
