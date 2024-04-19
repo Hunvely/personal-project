@@ -10,8 +10,10 @@ import com.rod.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -146,14 +148,36 @@ public class UserServiceImpl implements UserService {
         return optionalUser.isPresent();
     }
 
+    @Transactional
     @Override
     public Messenger login(UserDto userDto) {
-        boolean flag = userRepository.findByUsername(userDto.getUsername()).get().getPassword().equals(userDto.getPassword());
+        Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            boolean flag = userDto.getPassword().equals(user.getPassword());
 
-        return Messenger.builder()
-                .message(flag ? "SUCCESS" : "FAILURE")
-                .token(flag ? jwtProvider.createToken(userDto) : "None")
-                .build();
+            String token = jwtProvider.createToken(entityToDto(user));
+            String[] chunks = token.split("\\.");
+            Base64.Decoder decoder = Base64.getDecoder();
 
+            userRepository.modifyTokenById(user.getId(), token);
+
+            String header = new String(decoder.decode(chunks[0]));
+            String payload = new String(decoder.decode(chunks[1]));
+
+            log.info("Token header : " + header);
+            log.info("Token payload : " + payload);
+
+            return Messenger.builder()
+                    .message(flag ? "SUCCESS" : "FAILURE")
+                    .token(flag ? token : "None")
+                    .build();
+        } else {
+            return Messenger.builder()
+                    .message("FAILURE")
+                    .token("None")
+                    .build();
+        }
     }
+
 }
