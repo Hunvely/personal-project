@@ -34,6 +34,7 @@ public class UserDto { // DTO는 데이터 전송을 위한 객체로 클라이�
     private String phone;
     @NotBlank
     private String email;
+    private String token;
 
     private List<Article> articles;
 
