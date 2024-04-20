@@ -21,6 +21,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
     @Modifying // 상태 변화 시킬 때 사용
-    @Query("update User u set u.token = :token where u.id = :id")
+    @Query("UPDATE User u SET u.token = :token WHERE u.id = :id")
     void modifyTokenById(@Param("id") Long id, @Param("token") String token);
+
+    @Query("SELECT count(id) as count FROM User WHERE username = :username")
+    Integer existsUsername(@Param("username") String username);
 }

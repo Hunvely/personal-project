@@ -180,4 +180,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public Boolean existsUsername(String username) {
+        Integer count = userRepository.existsUsername(username);
+        return count == 1;
+    }
 }

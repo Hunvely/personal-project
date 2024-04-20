@@ -21,6 +21,8 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
 
     Messenger login(UserDto param);
 
+    Boolean existsUsername(String username);
+
     default User dtoToEntity(UserDto userDto) {
         // DTO -> Entity, Entity는 DB와 매핑되는 객체이기 때문에 Service에서 Repository로 데이터 전달할 때 변환
         return User.builder()
