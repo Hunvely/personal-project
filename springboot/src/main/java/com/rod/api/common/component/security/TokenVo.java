@@ -1,4 +1,4 @@
-package com.rod.api.common.component;
+package com.rod.api.common.component.security;
 
 public class TokenVo {
 
