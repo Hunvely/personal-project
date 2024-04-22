@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface ArticleService extends CommandService<ArticleDto>, QueryService<ArticleDto> {
 
+    List<ArticleDto> findAllByBoardId(Long id);
+
     default Article dtoToEntity(ArticleDto articleDto) {
         return Article.builder()
                 .id(articleDto.getId())
@@ -26,5 +28,4 @@ public interface ArticleService extends CommandService<ArticleDto>, QueryService
                 .build();
     }
 
-    List<ArticleDto> findAllByBoardId(Long id);
 }

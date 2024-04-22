@@ -29,8 +29,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Messenger save(ArticleDto articleDto) {
 
-        User writer = userRepository.findById(articleDto.getWriterId()).orElse(null);
-        Board board = boardRepository.findById(articleDto.getBoardId()).orElse(null);
+        User writer = userRepository.findById(articleDto.getWriterId())
+                .orElseThrow(() -> new IllegalArgumentException("UserID " + articleDto.getWriterId() + " not found"));
+        Board board = boardRepository.findById(articleDto.getBoardId())
+                .orElseThrow(() -> new IllegalArgumentException("BoardID " + articleDto.getBoardId() + " not found"));
 
         Article article = Article.builder()
                 .title(articleDto.getTitle())
