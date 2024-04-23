@@ -90,20 +90,4 @@ public class UserController {
     public ResponseEntity<Long> count() {
         return ResponseEntity.ok(userService.count());
     }
-
-    @PostMapping(path = "/login")
-    public ResponseEntity<Messenger> login(@RequestBody UserDto userDto) {
-        log.info("입력받은 정보 : {}", userDto);
-
-        return ResponseEntity.ok(userService.login(userDto));
-    }
-
-    @GetMapping(path = "exists-username")
-    public ResponseEntity<Boolean> existsUsername(@RequestParam("username") String username) {
-        log.info("existsUsername info : " + username);
-        Boolean flag = userService.existsUsername(username);
-        log.info("existsUsername result : " + username);
-
-        return ResponseEntity.ok(flag);
-    }
 }
