@@ -6,6 +6,7 @@ import com.rod.api.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -13,9 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.swing.text.html.Option;
 import java.util.Optional;
+import java.util.stream.Stream;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
+@Log4j2
 public class AuthInterceptor implements HandlerInterceptor {
 
     private final JwtProvider jwtProvider;
@@ -24,25 +27,17 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        String token = jwtProvider.extractTokenFromHeader(request); // Body는 계속 바뀌고 Header 안에 넣으면 바뀌지 않기 때문에 토큰을 Header에 넣음.
-
-        if (ObjectUtils.isEmpty(token)) { // 정형화
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-
-            return false;
-        }
-
-        String strId = jwtProvider.getPayload(token);
-        Long id = Long.parseLong(strId);
-
-        Optional<User> user = userRepository.findById(id);
-        if (ObjectUtils.isEmpty(user)) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-
-            return false;
-        }
-
-        return true;
+        return Stream.of(request)
+                .map(token -> jwtProvider.extractTokenFromHeader(token))
+                .filter(token -> !token.equals("undefined"))
+                .peek(token -> log.info("1 - 인터셉터 토큰 로그 Bearer 포함 : {}", token))
+                .map(token -> jwtProvider.getPayload(token).get("id", Long.class))
+                .peek(id -> log.info("2 - 인터셉터 사용자 id : {}", id))
+                .map(id -> userRepository.findById(id))
+                .filter(user -> user.isPresent())
+                .findFirst()
+                .isPresent()
+                ;
     }
 
     @Override
