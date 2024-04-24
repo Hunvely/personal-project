@@ -6,6 +6,7 @@ import {
   deleteUser,
   modifyUser,
   login,
+  existsUsername,
 } from "./user-service";
 import { IUser } from "../model/user";
 
@@ -73,8 +74,12 @@ export const userSlice = createSlice({
       })
       .addCase(login.fulfilled, (state: any, { payload }: any) => {
         state.auth = payload;
-      });
-  },
+      })
+      .addCase(existsUsername.fulfilled,  (state: any, {payload}: any) => {
+        state.existsUsername=payload;
+      })
+
+  }
 });
 export const getAllUsers = (state: any) => {
   console.log(
@@ -87,6 +92,8 @@ export const getAllUsers = (state: any) => {
 export const getUserById = (state: any) => state.user.array;
 export const getCountUsers = (state: any) => state.user.count;
 export const getAuth = (state: any) => state.user.auth;
+export const getExistsUsername = (state: any) =>(state.user.existsUsername)
+
 
 export const { passwordHandler, phoneHandler, jobHandler } = userSlice.actions;
 export default userSlice.reducer;

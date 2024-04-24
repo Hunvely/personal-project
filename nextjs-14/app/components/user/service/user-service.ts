@@ -6,7 +6,8 @@ import {
   deleteUserApi,
   modifyUserApi,
   loginAPI,
-  existsUsernameApi,
+  existsUsernameAPI,
+  logoutAPI,
 } from "./user-api";
 import { IUser } from "../model/user";
 
@@ -46,7 +47,12 @@ export const login: any = createAsyncThunk(
   async (user: IUser) => await loginAPI(user)
 );
 
-export const existsByUsername: any = createAsyncThunk(
-  "users/existsUsername",
-  async (username: string) => await existsUsernameApi(username)
-);
+export const existsUsername: any = createAsyncThunk(
+  'users/existsUsername',
+  async (username: string)=> await  existsUsernameAPI(username)
+)
+
+export const logout: any = createAsyncThunk(
+  'users/logout',
+  async () => await logoutAPI()
+)
