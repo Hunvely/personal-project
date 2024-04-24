@@ -1,7 +1,8 @@
+
 import { GridColDef } from "@mui/x-data-grid";
 
-export default function MuiDemoColumns(): GridColDef[] {
-        return [
+export default function MuiDemoColumns(): GridColDef[]{
+    return  [
         { field: 'id', headerName: 'ID', width: 90 },
         {
           field: 'firstName',
@@ -30,6 +31,5 @@ export default function MuiDemoColumns(): GridColDef[] {
           width: 160,
         //   valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
         },
-      ]
-
+      ];
 }
