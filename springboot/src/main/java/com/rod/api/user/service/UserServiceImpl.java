@@ -2,13 +2,13 @@ package com.rod.api.user.service;
 
 import com.rod.api.article.model.Article;
 import com.rod.api.article.repository.ArticleRepository;
-import com.rod.api.common.component.JwtProvider;
+import com.rod.api.common.component.security.JwtProvider;
 import com.rod.api.common.component.Messenger;
 import com.rod.api.user.model.User;
 import com.rod.api.user.model.UserDto;
 import com.rod.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -155,29 +155,33 @@ public class UserServiceImpl implements UserService {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             boolean flag = userDto.getPassword().equals(user.getPassword());
+            String accessToken = jwtProvider.createToken(entityToDto(user));
 
-            String token = jwtProvider.createToken(entityToDto(user));
-            String[] chunks = token.split("\\.");
-            Base64.Decoder decoder = Base64.getDecoder();
+            userRepository.modifyTokenById(user.getId(), accessToken);
 
-            userRepository.modifyTokenById(user.getId(), token);
-
-            String header = new String(decoder.decode(chunks[0]));
-            String payload = new String(decoder.decode(chunks[1]));
-
-            log.info("Token header : " + header);
-            log.info("Token payload : " + payload);
+            // 토큰을 Header, Payload, Signature 으로 분할
+            JwtProvider.printPayload(accessToken);
 
             return Messenger.builder()
                     .message(flag ? "SUCCESS" : "FAILURE")
-                    .token(flag ? token : "None")
+                    .accessToken(flag ? accessToken : "None")
                     .build();
         } else {
             return Messenger.builder()
                     .message("FAILURE")
-                    .token("None")
+                    .accessToken("None")
                     .build();
         }
+    }
+
+    @Transactional
+    @Override
+    public Boolean logout(String accessToken) {
+        Long id = 1L;
+        String deleteToken = "";
+        userRepository.modifyTokenById(id, deleteToken);
+
+        return userRepository.findById(id).get().getToken().isEmpty();
     }
 
     @Override

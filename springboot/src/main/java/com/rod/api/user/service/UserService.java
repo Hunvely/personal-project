@@ -21,6 +21,8 @@ public interface UserService extends CommandService<UserDto>, QueryService<UserD
 
     Messenger login(UserDto param);
 
+    Boolean logout(String accessToken);
+
     Boolean existsUsername(String username);
 
     default User dtoToEntity(UserDto userDto) {
