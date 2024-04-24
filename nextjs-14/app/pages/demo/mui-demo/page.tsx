@@ -1,13 +1,18 @@
+
 "use client"
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import MuiDemoRows from '@/app/componants/rows/mui-demo-rows';
-import MuiDemoColumns from '@/app/componants/columns/mui-demo-columns';
+import MuiDemoRows from '@/app/components/demo/module/mui-demo-rows';
+import MuiDemoColumns from '@/app/components/demo/module/mui-demo-columns';
 import { NextPage } from 'next';
 
-const DataGridDemoPage:NextPage = () => {
+// const columns: GridColDef[] =
+
+
+
+const DataGridDemo: NextPage = () => {
   return (
     <Box sx={{ height: 400, width: '100%' }}>
       <DataGrid
@@ -28,13 +33,4 @@ const DataGridDemoPage:NextPage = () => {
   );
 }
 
-export default DataGridDemoPage
-
-export function Test() {}
-
-
-
-
-
-
-
+export default DataGridDemo;
