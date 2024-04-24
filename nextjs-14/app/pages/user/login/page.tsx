@@ -1,12 +1,12 @@
 'use client'
 import Link from "next/link";
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from 'react-redux'
 import { useRouter } from "next/navigation"
-import { login } from "@/app/components/user/service/user-service";
+import { existsUsername, login } from "@/app/components/user/service/user-service";
 import { IUser } from "@/app/components/user/model/user";
 import nookies, { parseCookies, destroyCookie, setCookie } from 'nookies'
-import { getAuth } from "@/app/components/user/service/user-slice";
+import { getAuth, getExistsUsername } from "@/app/components/user/service/user-slice";
 import { NextPage } from "next";
 import { jwtDecode } from "jwt-decode";
 
@@ -16,8 +16,8 @@ const LoginPage: NextPage = () => {
     const router = useRouter()
     const dispatch = useDispatch()
     const auth = useSelector(getAuth)
-    //const exists = useSelector(getExistsUsername)
-
+    const passwordRef = useRef<HTMLInputElement>(null);
+    const existsUsernameSelector = useSelector(getExistsUsername)
 
     const [user, setUser] = useState({} as IUser) //하나의 instance로 만듬
     const [isWrongId, setIsWrongId] = useState(false)
@@ -25,23 +25,26 @@ const LoginPage: NextPage = () => {
 
     const [isWrongPw, setIsWrongPw] = useState(false)
     const [isTruePw, setIsTruePw] = useState(false)
+    const [beforeSubmit, setBeforeSubmit] = useState(true)
+
+
 
     const [len, setLen] = useState('')
 
     //boolean type의 경우 is를 넣어줌
     const handleUsername = (e: any) => {
-        const ID_CHECK = /^[a-zA-Z][a-zA-Z0-9]{5,19}$/
-        //영어 대소문자로 시작하는 6~10자의 영어 대소문자 또는 숫자
-
+        const ID_CHECK = /^[a-zA-Z][a-zA-Z0-9]{5,12}$/g;
+        // 영어 대소문자로 시작하는 6 ~20자 의 영어 대소문자 또는 숫자 
         setLen(e.target.value)
-        setUser({
-            ...user,
-            username: len
-        })
-
+        setBeforeSubmit(true)
         if (ID_CHECK.test(len)) {
             setIsWrongId(false)
             setIsTrueId(true)
+            setUser({
+                ...user,
+                username: e.target.value
+            })
+            console.log('ID_CHECK 내용 : ' + JSON.stringify(user))
 
 
         } else {
@@ -65,24 +68,65 @@ const LoginPage: NextPage = () => {
 
     const handleSubmit = () => {
         console.log('user ...' + JSON.stringify(user))
-        //dispatch(existsUsername(user.username))
-        dispatch(login(user))
+        dispatch(existsUsername(user.username))
+            .then((res: any) => {
+                if (res.payload === true) {
+                    dispatch(login(user))
+                        .then((resp: any) => {
+                            console.log('서버에서 넘어온 RES' + JSON.stringify(resp))
+                            console.log('서버에서 넘어온 메시지 : '+ resp.payload.message)
+                            console.log('서버에서 넘어온 토큰 : ' + resp.payload.token) 
+                            setCookie({}, 'message', resp.payload.message, { httpOnly: false, path: '/' })
+                            setCookie({}, 'accessToken', resp.payload.accessToken, { httpOnly: false, path: '/' })
+                            console.log('서버에서 넘어온 메시지 ' + parseCookies().message)
+                            console.log('서버에서 넘어온 토큰 ' + parseCookies().accessToken)
+                            console.log('토큰을 디코딩한 내용: ')
+                            jwtDecode<any>(parseCookies().token)
+                            router.push('/pages/board/list')
+
+                        })
+                        .catch((err: any) => {
+                            console.log('LOGIN FAIL')
+
+                        })
+                }
+                else {
+                    console.log('아이디가 존재하지 않습니다')
+                    setBeforeSubmit(false)
+                    setIsWrongId(false)
+                    setIsTrueId(false)
+                }
+
+            })
+            .catch((err: any) => {
+
+            })
+            .finally(() => {
+                console.log('최종적으로 반드시 수행되는 로직')
+            })
+        // dispatch(login(user))
+        setBeforeSubmit(false)
+        setIsWrongId(false)
+        setIsTrueId(false)
+        if (passwordRef.current) {
+            passwordRef.current.value = "";
+        }
     }
 
-    useEffect(() => {
-        console.log('getAuth 메시지' + auth.message)
-        if (auth.message === 'SUCCESS') {
-            setCookie({}, 'message', auth.message, { httpOnly: false, path: '/' })
-            setCookie({}, 'token', auth.token, { httpOnly: false, path: '/' })
-            console.log('서버에서 넘어온 메시지 ' + parseCookies().message)
-            console.log('서버에서 넘어온 토큰 ' + parseCookies().token)
-            console.log('토큰을 디코딩한 내용: ')
-            jwtDecode<any>(parseCookies().token)
-            router.push('/pages/board/list')
-        } else {
-            console.log('LOGIN FAIL')
-        }
-    }, [auth])
+    // useEffect(() => {
+    //     console.log('getAuth 메시지' + auth.message)
+    //     if (auth.message === 'SUCCESS') {
+    //         setCookie({}, 'message', auth.message, { httpOnly: false, path: '/' })
+    //         setCookie({}, 'token', auth.token, { httpOnly: false, path: '/' })
+    //         console.log('서버에서 넘어온 메시지 ' + parseCookies().message)
+    //         console.log('서버에서 넘어온 토큰 ' + parseCookies().token)
+    //         console.log('토큰을 디코딩한 내용: ')
+    //         jwtDecode<any>(parseCookies().token)
+    //         router.push('/pages/board/list')
+    //     } else {
+    //         console.log('LOGIN FAIL')
+    //     }
+    // }, [auth])
 
     return (
         <div className="flex items-center justify-center h-screen w-full px-5 sm:px-0">
