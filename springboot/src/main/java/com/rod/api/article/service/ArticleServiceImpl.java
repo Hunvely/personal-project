@@ -46,6 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         return Messenger.builder()
                 .message("SUCCESS Article ID : " + saveArticleId)
+                .id(board.getId())
                 .build();
     }
 
@@ -89,7 +90,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<ArticleDto> findAll() throws SQLException {
-        return articleRepository.findAll().stream().map(i -> entityToDto(i)).toList();
+        return articleRepository.findAllByOrderByIdDesc().stream().map(i -> entityToDto(i)).toList();
     }
 
     @Override

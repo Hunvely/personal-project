@@ -44,7 +44,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public List<BoardDto> findAll() throws SQLException {
-        return boardRepository.findAll().stream().map(i -> entityToDto(i)).toList();
+        return boardRepository.findAllByOrderByContentDesc().stream().map(i -> entityToDto(i)).toList();
     }
 
     @Override

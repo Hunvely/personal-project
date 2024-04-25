@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> findAll() throws SQLException {
-        return userRepository.findAll().stream().map(i -> entityToDto(i)).toList();
+        return userRepository.findAllByOrderByIdDesc().stream().map(i -> entityToDto(i)).toList();
     }
 
     @Override
