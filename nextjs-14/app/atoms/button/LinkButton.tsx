@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Box, Link } from '@mui/material';
 
 interface ILinkButton{
-    id: string,
+    id: number,
     title: string,
     path: string
 }
@@ -21,11 +21,11 @@ interface ILinkButton{
   } 
 
   export const linkButtonTitles = [
-    
+    { id: '2', title: 'Login', path: `${PG.USER}/login` },
     { id: '3', title: 'COUNTER', path: `${PG.DEMO}/redux-counter` },
     { id: '4', title: 'POSTS', path: `${PG.ARTICLE}/list` },
     { id: '5', title: 'BOARDS', path: `${PG.BOARD}/list` },
-    { id: '6', title: 'USERS', path: `${PG.USER}/list` }
+    { id: '6', title: 'MyPage', path: `${PG.USER}/detail/${1}` }
 ]
 
     export const settings = ['Profile','Account','Dashboard','Logout']
