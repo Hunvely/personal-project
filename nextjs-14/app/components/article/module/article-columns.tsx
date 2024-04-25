@@ -43,6 +43,14 @@ export default function ArticleColumns(): GridColDef[] {
             field: 'registerDate',
             headerName: '등록일',
             renderCell: ({ row }: CellType) => <Typography textAlign="center" sx={{ fontSize: "1.2rem" }}>  {row.regDate}</Typography>
+        },
+        {
+            flex: 0.04,
+            minWidth: 30,
+            sortable: false,
+            field: '',
+            headerName: '삭제',
+            renderCell: ({ row }: CellType) => <Link href={""}> <Typography textAlign="center" sx={{ fontSize: "1.2rem" }}>삭제</Typography></Link>
         }
     ]
 
