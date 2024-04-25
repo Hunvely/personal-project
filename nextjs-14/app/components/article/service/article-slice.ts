@@ -29,8 +29,6 @@ const handleRejected = (state: any) => {
   
 }
 
-
-
 export const articleSlice = createSlice({
     name: "article",
     initialState,
