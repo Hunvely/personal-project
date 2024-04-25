@@ -17,9 +17,10 @@ import java.util.List;
 public class BoardDto {
 
     private Long id;
-    private String boardName;
-    private String boardType;
-
+    private String title;
+    private String content;
+    private String description;
+    private String registerDate;
     private List<Article> articles;
 
 }
