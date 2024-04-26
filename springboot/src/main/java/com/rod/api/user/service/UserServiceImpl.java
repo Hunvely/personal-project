@@ -105,34 +105,29 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Transactional
     @Override
     public Messenger modify(UserDto userDto) {
         Optional<User> optionalUser = userRepository.findById(userDto.getId());
         if (optionalUser.isPresent()) {
-            UserDto updateUser = userDto.toBuilder()
+            User user = optionalUser.get();
+            User updateUser = user.toBuilder()
                     .password(userDto.getPassword())
                     .phone(userDto.getPhone())
                     .email(userDto.getEmail())
+                    .job(userDto.getJob())
                     .build();
-            List<Article> articles = updateUser.getArticles();
-            if (articles != null) {
-                articles.forEach(article -> {
-                    Article updateArticle = article.toBuilder()
-                            .writer(dtoToEntity(updateUser))
-                            .build();
-                    articleRepository.save(updateArticle);
-                });
-            }
-            userRepository.save(dtoToEntity(updateUser));
+
+            userRepository.save(updateUser);
 
             return Messenger.builder()
-                    .message("update SUCCESS")
+                    .message("update SUCCeSS")
                     .build();
         } else {
             log.warn("User with ID '{}' not found.", userDto.getId());
 
             return Messenger.builder()
-                    .message("update FAIL")
+                    .message("update FAULURE")
                     .build();
         }
     }
