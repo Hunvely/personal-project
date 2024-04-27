@@ -7,6 +7,7 @@ import com.rod.api.common.component.Messenger;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -22,6 +23,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Messenger save(BoardDto boardDto) {
         entityToDto(boardRepository.save(dtoToEntity(boardDto)));
+
         return Messenger.builder()
                 .message("SUCCESS")
                 .build();
@@ -37,9 +39,30 @@ public class BoardServiceImpl implements BoardService {
                 .build();
     }
 
+    @Transactional
     @Override
     public Messenger modify(BoardDto boardDto) {
-        return null;
+        Optional<Board> optionalBoard = boardRepository.findById(boardDto.getId());
+        if (optionalBoard.isPresent()) {
+            Board board = optionalBoard.get();
+            Board updateBoard = board.toBuilder()
+                    .title(boardDto.getTitle())
+                    .content(boardDto.getContent())
+                    .description(boardDto.getDescription())
+                    .build();
+
+            boardRepository.save(updateBoard);
+
+            return Messenger.builder()
+                    .message("Update SUCCESS")
+                    .build();
+        } else {
+            log.warn("Board with ID '{}' not found.", boardDto.getId());
+
+            return Messenger.builder()
+                    .message("Update FAILURE")
+                    .build();
+        }
     }
 
     @Override
