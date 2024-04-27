@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "board")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @ToString(exclude = {"id"})
 public class Board {
